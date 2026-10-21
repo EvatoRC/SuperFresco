@@ -1,0 +1,325 @@
+/* ===== base ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --verde: #1f8a4c;
+  --verde-oscuro: #166b3a;
+  --fondo: #f4f6f5;
+  --texto: #1d2420;
+  --gris: #6b7570;
+  --borde: #dde3df;
+  --amarillo: #f2b705;
+  --rojo: #d64545;
+}
+
+body {
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== header ===== */
+.header {
+  background: var(--verde);
+  padding: 14px 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.logo-icono {
+  font-size: 28px;
+}
+
+.logo strong {
+  display: block;
+  font-size: 20px;
+}
+
+.logo small {
+  opacity: 0.85;
+}
+
+/* ===== contenido ===== */
+.contenido {
+  flex: 1;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px 16px 100px; /* el padding de abajo es para que el menu fijo no tape nada */
+}
+
+h1 {
+  margin-bottom: 6px;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 16px 0 8px;
+}
+
+.subtitulo {
+  color: var(--gris);
+  margin-bottom: 20px;
+}
+
+/* ===== tarjetas resumen ===== */
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tarjeta-resumen {
+  background: white;
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--verde);
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  color: var(--gris);
+}
+
+.tarjeta-resumen .numero {
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--texto);
+}
+
+.tarjeta-resumen.alerta {
+  border-left-color: var(--amarillo);
+}
+
+.tarjeta-resumen.peligro {
+  border-left-color: var(--rojo);
+}
+
+/* ===== filtros ===== */
+.filtros {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.filtros input,
+.filtros select {
+  padding: 10px;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.filtros input {
+  flex: 1;
+}
+
+/* ===== tabla ===== */
+.tabla-contenedor {
+  overflow-x: auto;
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.tabla th,
+.tabla td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla th {
+  background: #eef3f0;
+}
+
+.tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.disponible {
+  background: #dff3e6;
+  color: var(--verde-oscuro);
+}
+
+.stock-bajo {
+  background: #fdf1cc;
+  color: #8a6500;
+}
+
+.sin-stock {
+  background: #fbdede;
+  color: #a12e2e;
+}
+
+.vacio {
+  color: var(--gris);
+  padding: 20px 0;
+}
+
+/* ===== tiendas ===== */
+.grilla-tiendas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tarjeta-tienda,
+.detalle-tienda {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.tarjeta-tienda h2 {
+  margin-top: 0;
+}
+
+.tarjeta-tienda p,
+.detalle-tienda p {
+  margin-bottom: 8px;
+}
+
+.detalle-tienda ul {
+  padding-left: 20px;
+}
+
+.boton {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 14px;
+  background: var(--verde);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.boton:hover {
+  background: var(--verde-oscuro);
+}
+
+.boton-secundario {
+  background: none;
+  border: 1px solid var(--borde);
+  border-radius: 6px;
+  padding: 6px 12px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===== preguntas frecuentes ===== */
+.faq-item {
+  background: white;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.faq-pregunta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-respuesta {
+  padding: 0 16px 14px;
+  color: var(--gris);
+  line-height: 1.5;
+}
+
+/* ===== 404 ===== */
+.no-encontrado {
+  text-align: center;
+  padding-top: 40px;
+}
+
+.no-encontrado h1 {
+  font-size: 64px;
+  color: var(--verde);
+}
+
+/* ===== menu inferior ===== */
+.menu-inferior {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: white;
+  border-top: 1px solid var(--borde);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.menu-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px;
+  color: var(--gris);
+  text-decoration: none;
+  font-size: 13px;
+  border-top: 3px solid transparent;
+}
+
+.menu-icono {
+  font-size: 22px;
+}
+
+/* NavLink le pone la clase active a la ruta actual */
+.menu-item.active {
+  color: var(--verde);
+  border-top-color: var(--verde);
+  font-weight: 600;
+}
+
+/* ===== responsive ===== */
+@media (max-width: 600px) {
+  .resumen {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .filtros {
+    flex-direction: column;
+  }
+}
