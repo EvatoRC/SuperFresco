@@ -1,0 +1,58 @@
+/* Tailwind CSS v4: esta sola linea trae base, componentes y utilidades */
+@import "tailwindcss";
+
+/*
+  @theme = variables CSS del sitio. Todos los colores salen de aqui:
+  cada --color-xxx crea clases como bg-xxx, text-xxx, border-xxx.
+  (equivale a theme.extend.colors del tailwind.config.js de la v3)
+*/
+@theme {
+  /* marca */
+  --color-verde: #1f8a4c;
+  --color-verde-oscuro: #166b3a;
+  --color-verde-claro: #dff3e6;
+
+  /* neutros */
+  --color-fondo: #f4f6f5;
+  --color-cabecera: #eef3f0; /* cabecera de tablas */
+  --color-texto: #1d2420;
+  --color-gris: #6b7570;
+  --color-borde: #dde3df;
+
+  /* estados de stock (usados por Badge y TarjetaResumen) */
+  --color-amarillo: #f2b705;
+  --color-rojo: #d64545;
+  --color-rojo-oscuro: #a12e2e;
+  --color-ok-fondo: #dff3e6;
+  --color-ok-texto: #166b3a;
+  --color-alerta-fondo: #fdf1cc;
+  --color-alerta-texto: #8a6500;
+  --color-peligro-fondo: #fbdede;
+  --color-peligro-texto: #a12e2e;
+
+  --font-sans: "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  @apply bg-fondo text-texto font-sans;
+}
+
+/*
+  Clases de componente para lo que se repite en varias paginas (botones e inputs).
+  Se arman con @apply sobre las utilidades del tema, asi no hay colores sueltos.
+  El resto de los estilos va en cada componente con clases de Tailwind, por lo que
+  no hay un CSS global gigante ni riesgo de que dos clases con el mismo nombre choquen.
+*/
+@layer components {
+  .btn-primario {
+    @apply inline-block cursor-pointer rounded-md bg-verde px-4 py-2 font-semibold text-white no-underline transition-colors hover:bg-verde-oscuro;
+  }
+
+  .btn-secundario {
+    @apply inline-block cursor-pointer rounded-md border border-borde bg-white px-4 py-2 text-gris transition-colors hover:bg-fondo hover:text-texto;
+  }
+
+  .control {
+    @apply w-full rounded-md border border-borde bg-white px-3 py-2.5 text-[15px] outline-none transition focus:border-verde focus:ring-2 focus:ring-verde/25;
+  }
+}

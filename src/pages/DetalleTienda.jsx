@@ -1,5 +1,8 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import tiendas from '../data/tiendas'
+import TituloPagina from '../components/TituloPagina'
+import Badge from '../components/Badge'
+import { varianteTienda } from '../utils/stock'
 
 function DetalleTienda() {
   // useParams lee el :id que viene en la URL
@@ -12,9 +15,10 @@ function DetalleTienda() {
   if (!tienda) {
     return (
       <section>
-        <h1>Tienda no encontrada</h1>
-        <p>No existe una sucursal con el código "{id}".</p>
-        <Link to="/tiendas" className="boton">Ver todas las tiendas</Link>
+        <TituloPagina titulo="Tienda no encontrada" subtitulo={`No existe una sucursal con el código "${id}".`} />
+        <Link to="/tiendas" className="btn-primario">
+          Ver todas las tiendas
+        </Link>
       </section>
     )
   }
@@ -22,24 +26,28 @@ function DetalleTienda() {
   return (
     <section>
       {/* navigate(-1) vuelve a la pagina anterior del historial */}
-      <button className="boton-secundario" onClick={() => navigate(-1)}>← Volver</button>
+      <button
+        className="btn-secundario mb-3.5 px-3 py-1.5 text-sm"
+        onClick={() => navigate(-1)}
+      >
+        ← Volver
+      </button>
 
-      <h1>{tienda.nombre}</h1>
+      <TituloPagina titulo={tienda.nombre} />
 
-      <div className="detalle-tienda">
+      <div className="space-y-2 rounded-lg border border-borde bg-white p-4 shadow-sm">
         <p><strong>Dirección:</strong> {tienda.direccion}</p>
         <p><strong>Horario:</strong> {tienda.horario}</p>
         <p><strong>Teléfono:</strong> {tienda.telefono}</p>
         <p><strong>Encargado/a:</strong> {tienda.encargado}</p>
         <p>
           <strong>Productos con stock bajo:</strong>{' '}
-          <span className={`badge ${tienda.productosBajoStock > 3 ? 'sin-stock' : 'stock-bajo'}`}>
-            {tienda.productosBajoStock}
-          </span>
+          {/* el umbral de tienda critica vive en utils/stock.js */}
+          <Badge variante={varianteTienda(tienda.productosBajoStock)}>{tienda.productosBajoStock}</Badge>
         </p>
 
-        <h2>Servicios</h2>
-        <ul>
+        <h2 className="pt-2 text-lg font-semibold">Servicios</h2>
+        <ul className="list-disc pl-5">
           {tienda.servicios.map((s) => (
             <li key={s}>{s}</li>
           ))}
