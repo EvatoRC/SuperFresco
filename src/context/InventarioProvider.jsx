@@ -1,47 +1,39 @@
 import { useEffect, useReducer } from 'react'
 import { InventarioContext } from './InventarioContext'
 import { ACCIONES, inventarioReducer } from './inventarioReducer'
+import { cargarEstado, guardarEstado } from './persistencia'
 import productosIniciales from '../data/productos'
 
-const CLAVE_STORAGE = 'superfresco-inventario'
-
-// carga inicial: si hay datos guardados en el navegador los uso,
-// si no, parto con los datos de prueba
-function cargarInventario(datosPorDefecto) {
-  try {
-    const guardado = localStorage.getItem(CLAVE_STORAGE)
-    return guardado ? JSON.parse(guardado) : datosPorDefecto
-  } catch {
-    // modo incognito o storage bloqueado: sigo con los datos de prueba
-    return datosPorDefecto
-  }
-}
-
 function InventarioProvider({ children }) {
-  // useReducer en vez de useState porque el estado tiene varias acciones
-  // (agregar, eliminar, reiniciar) y asi toda la logica queda en un solo lugar.
-  // el tercer parametro (cargarInventario) solo se ejecuta la primera vez
-  const [articulos, dispatch] = useReducer(inventarioReducer, productosIniciales, cargarInventario)
+  // inventario y carrito viven en el MISMO reducer: agregar al carrito descuenta stock
+  // en una sola accion, asi nunca queda uno actualizado y el otro no.
+  // cargarEstado (persistencia.js) lee localStorage, migra versiones antiguas y valida la estructura;
+  // como tercer parametro de useReducer solo se ejecuta la primera vez
+  const [estado, dispatch] = useReducer(inventarioReducer, productosIniciales, cargarEstado)
 
-  // cada vez que cambia la lista la guardo, asi no se pierde al recargar la pagina
+  // cada vez que cambia el estado lo guardo (con su version), asi no se pierde al recargar
   useEffect(() => {
-    try {
-      localStorage.setItem(CLAVE_STORAGE, JSON.stringify(articulos))
-    } catch {
-      // si no se puede guardar, la app sigue funcionando igual en memoria
-    }
-  }, [articulos])
+    guardarEstado(estado)
+  }, [estado])
 
   // funciones que exponen las acciones, para que las paginas no tengan que conocer el dispatch
-  const agregarArticulo = (articulo) => dispatch({ type: ACCIONES.AGREGAR, payload: articulo })
-  const eliminarArticulo = (id) => dispatch({ type: ACCIONES.ELIMINAR, payload: id })
-  const reiniciarInventario = () => dispatch({ type: ACCIONES.REINICIAR, payload: productosIniciales })
+  const valor = {
+    articulos: estado.articulos,
+    carrito: estado.carrito,
+    // inventario
+    agregarArticulo: (articulo) => dispatch({ type: ACCIONES.AGREGAR, payload: articulo }),
+    eliminarArticulo: (id) => dispatch({ type: ACCIONES.ELIMINAR, payload: id }),
+    reiniciarInventario: () => dispatch({ type: ACCIONES.REINICIAR, payload: productosIniciales }),
+    // carrito
+    agregarAlCarrito: (id, cantidad) => dispatch({ type: ACCIONES.AGREGAR_AL_CARRITO, payload: { id, cantidad } }),
+    aumentarCantidad: (id) => dispatch({ type: ACCIONES.AUMENTAR, payload: id }),
+    disminuirCantidad: (id) => dispatch({ type: ACCIONES.DISMINUIR, payload: id }),
+    quitarDelCarrito: (id) => dispatch({ type: ACCIONES.QUITAR_DEL_CARRITO, payload: id }),
+    vaciarCarrito: () => dispatch({ type: ACCIONES.VACIAR_CARRITO }),
+    confirmarCompra: () => dispatch({ type: ACCIONES.CONFIRMAR_COMPRA }),
+  }
 
-  return (
-    <InventarioContext.Provider value={{ articulos, agregarArticulo, eliminarArticulo, reiniciarInventario }}>
-      {children}
-    </InventarioContext.Provider>
-  )
+  return <InventarioContext.Provider value={valor}>{children}</InventarioContext.Provider>
 }
 
 export default InventarioProvider

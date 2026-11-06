@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 // se muestra cuando la URL no coincide con ninguna ruta
 function NoEncontrado() {

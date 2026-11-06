@@ -1,5 +1,5 @@
 import { lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router'
 import Layout from '../layouts/Layout'
 import Inicio from '../pages/Inicio'
 
@@ -10,6 +10,8 @@ const DetalleTienda = lazy(() => import('../pages/DetalleTienda'))
 const PreguntasFrecuentes = lazy(() => import('../pages/PreguntasFrecuentes'))
 const ListadoArticulos = lazy(() => import('../pages/ListadoArticulos'))
 const AgregarArticulo = lazy(() => import('../pages/AgregarArticulo'))
+const DetalleArticulo = lazy(() => import('../pages/DetalleArticulo'))
+const Carrito = lazy(() => import('../pages/Carrito'))
 const NoEncontrado = lazy(() => import('../pages/NoEncontrado'))
 
 // todas las rutas van anidadas dentro de Layout (ruta "padre" sin path)
@@ -23,7 +25,11 @@ function AppRoutes() {
         <Route path="tiendas/:id" element={<DetalleTienda />} />
         <Route path="preguntas-frecuentes" element={<PreguntasFrecuentes />} />
         <Route path="articulos" element={<ListadoArticulos />} />
+        {/* "nuevo" es un segmento fijo y gana sobre :id, asi /articulos/nuevo no se confunde con un detalle */}
         <Route path="articulos/nuevo" element={<AgregarArticulo />} />
+        {/* semana 3: detalle de un articulo (ruta dinamica) y carrito */}
+        <Route path="articulos/:id" element={<DetalleArticulo />} />
+        <Route path="carrito" element={<Carrito />} />
         {/* el * va al final, atrapa cualquier ruta que no exista */}
         <Route path="*" element={<NoEncontrado />} />
       </Route>

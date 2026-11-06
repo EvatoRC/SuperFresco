@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import tiendas from '../data/tiendas'
 import TituloPagina from '../components/TituloPagina'
 

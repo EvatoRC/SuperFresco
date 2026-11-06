@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 // uso NavLink en vez de Link porque sabe si la ruta esta activa
 // y asi se marca en que pagina esta el usuario

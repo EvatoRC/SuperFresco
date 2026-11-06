@@ -1,15 +1,18 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router'
 import { useInventario } from '../context/InventarioContext'
+import { totalUnidades } from '../utils/carrito'
 
-// menu nuevo (semana 2): lleva a las dos paginas de gestion de articulos
+// menu de inventario (semana 2) + carrito (semana 3)
 const opcionesInventario = [
   { ruta: '/articulos', texto: 'Listado de artículos', icono: '📋' },
   { ruta: '/articulos/nuevo', texto: 'Agregar artículo', icono: '➕' },
+  { ruta: '/carrito', texto: 'Carrito', icono: '🛒', esCarrito: true },
 ]
 
 function Header() {
-  // el header tambien lee el estado global: el contador se actualiza solo al agregar o eliminar
-  const { articulos } = useInventario()
+  // el header tambien lee el estado global: los contadores se actualizan solos
+  const { articulos, carrito } = useInventario()
+  const unidadesCarrito = totalUnidades(carrito)
 
   // NavLink acepta una funcion en className y le pasa isActive,
   // asi cambio las clases de Tailwind segun la pagina actual
@@ -36,6 +39,11 @@ function Header() {
             <NavLink key={op.ruta} to={op.ruta} end className={claseLink}>
               <span aria-hidden="true">{op.icono}</span>
               {op.texto}
+              {op.esCarrito && unidadesCarrito > 0 && (
+                <span className="rounded-full bg-amarillo px-1.5 text-xs font-bold text-texto" aria-label={`${unidadesCarrito} unidades en el carrito`}>
+                  {unidadesCarrito}
+                </span>
+              )}
             </NavLink>
           ))}
           <span
