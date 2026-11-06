@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DyZJNswf.js";var t=e();function n({icono:e,mensaje:n,children:r}){return(0,t.jsxs)(`div`,{className:`rounded-lg border border-dashed border-borde bg-white p-8 text-center text-gris`,children:[e&&(0,t.jsx)(`p`,{className:`mb-2 text-4xl`,"aria-hidden":`true`,children:e}),(0,t.jsx)(`p`,{className:`mb-3`,children:n}),r]})}export{n as t};
